@@ -153,3 +153,12 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+### Improvements to do
+1. Use typscript instead of java script.
+2. Use react redux for state management.
+3. Saggregate the folders based on their use.
+4. Improvise the UI dont keep basic UI.
+5. Implement SSO if possible.
