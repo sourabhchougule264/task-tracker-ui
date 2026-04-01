@@ -157,8 +157,10 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 
 ### Improvements to do
-1. Use typscript instead of java script.
-2. Use react redux for state management.
-3. Saggregate the folders based on their use.
-4. Improvise the UI dont keep basic UI.
-5. Implement SSO if possible.
+
+1. Update UI: Review the complete UI, pop-ups, and theme; fix responsiveness issues where buttons are misaligned or not adhering. Implement a new, modern look to replace the older theme.
+2. Migrate Codebase: Migrate frontend components to use TSX; incorporate TypeScript for improved typing standard.
+3. Refactor Structure: Implement proper folder structuring within the components folder; separate CSS files from components.
+4. Implement State Management: Use Redux Toolkit library for centralized state management solution.
+5. Update API Logic: Follow the latest approach for API handling in React, using tools like React Query or a similar library.
+6. Review Comments: Open external comments and check provided questions.
