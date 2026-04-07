@@ -1,0 +1,135 @@
+<!-- This is a simple HTML file to generate PNG favicons from SVG -->
+<!-- Open this in a browser and it will let you download the PNG favicons -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Favicon PNG Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        canvas {
+            border: 2px solid #ddd;
+            margin: 10px;
+            background: #f9f9f9;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #5568d3;
+        }
+        .preview {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .preview-item {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Task Tracker Favicon PNG Generator</h1>
+    <p>This page generates PNG favicons from the SVG logo.</p>
+
+    <div class="preview">
+        <div class="preview-item">
+            <p>16x16</p>
+            <canvas id="canvas16" width="16" height="16"></canvas>
+            <br>
+            <button onclick="download(16)">Download 16x16</button>
+        </div>
+        <div class="preview-item">
+            <p>32x32</p>
+            <canvas id="canvas32" width="32" height="32"></canvas>
+            <br>
+            <button onclick="download(32)">Download 32x32</button>
+        </div>
+        <div class="preview-item">
+            <p>48x48 (Preview)</p>
+            <canvas id="canvas48" width="48" height="48"></canvas>
+        </div>
+    </div>
+
+    <h3>Instructions:</h3>
+    <ol>
+        <li>Click the download buttons above</li>
+        <li>Save as <code>favicon-16x16.png</code> and <code>favicon-32x32.png</code></li>
+        <li>Place them in the <code>public</code> folder</li>
+        <li>Rebuild the app</li>
+    </ol>
+</div>
+
+<script>
+    // SVG code for the favicon
+    const svgString = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+    <defs>
+        <linearGradient id="pulseGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#6554C0;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#36B37E;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    <path d="M100 300 h100 l30 -80 l60 160 l30 -80 h100"
+          fill="none" stroke="url(#pulseGrad)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="450" cy="300" r="15" fill="#36B37E" />
+    <circle cx="500" cy="300" r="15" fill="#36B37E" opacity="0.6" />
+    <circle cx="550" cy="300" r="15" fill="#36B37E" opacity="0.3" />
+    <text x="150" y="500" font-family="Inter, sans-serif" font-size="60" font-weight="900" fill="#172B4D">TAST-TRACKER</text>
+</svg>`;
+
+    function drawFavicon(size) {
+        const canvas = document.getElementById(`canvas${size}`);
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+
+        img.onload = function() {
+            ctx.clearRect(0, 0, size, size);
+            ctx.drawImage(img, 0, 0, size, size);
+        };
+
+        const blob = new Blob([svgString], {type: 'image/svg+xml'});
+        const url = URL.createObjectURL(blob);
+        img.src = url;
+    }
+
+    function download(size) {
+        const canvas = document.getElementById(`canvas${size}`);
+        canvas.toBlob(function(blob) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `favicon-${size}x${size}.png`;
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+    }
+
+    // Draw on page load
+    window.onload = function() {
+        drawFavicon(16);
+        drawFavicon(32);
+        drawFavicon(48);
+    };
+</script>
+</body>
+</html>

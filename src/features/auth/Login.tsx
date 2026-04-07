@@ -13,9 +13,10 @@ import {
   IconButton,
   CircularProgress,
 } from '@mui/material';
-import { Visibility, VisibilityOff, Login as LoginIcon } from '@mui/icons-material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useLogin } from '../../hooks/useAuth';
 import { useAppSelector } from '../../store';
+import Logo from '../../components/common/Logo';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -119,10 +120,13 @@ const Login: React.FC = () => {
               color: 'white',
               py: 4,
               textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
             }}
           >
-            <LoginIcon sx={{ fontSize: 48, mb: 1 }} />
-            <Typography variant="h4" fontWeight={700}>
+            <Logo size={48} showText={false} />
+            <Typography variant="h4" fontWeight={700} sx={{ mt: 2 }}>
               Task Tracker
             </Typography>
             <Typography variant="body2" sx={{ mt: 1, opacity: 0.9 }}>

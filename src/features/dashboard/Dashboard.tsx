@@ -40,6 +40,7 @@ import TasksView from './TasksView';
 import UserProfileView from './UserProfileView';
 import UserManagementView from './UserManagementView';
 import OverviewView from './OverviewView';
+import Logo from '../../components/common/Logo';
 
 const DRAWER_WIDTH = 260;
 
@@ -101,14 +102,17 @@ const Dashboard: React.FC = () => {
           p: 3,
           background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
           color: 'white',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
-        <Typography variant="h5" fontWeight={700}>
-          Task Tracker
-        </Typography>
-        <Typography variant="caption" sx={{ opacity: 0.9 }}>
-          Project Management
-        </Typography>
+        <Logo
+            size={40}
+            showText={true}
+            textColor="white"
+            onClick={() => handleNavigation('/dashboard')}
+        />
       </Box>
 
       <List sx={{ flex: 1, pt: 2 }}>

@@ -13,8 +13,9 @@ import {
   IconButton,
   CircularProgress,
 } from '@mui/material';
-import { Visibility, VisibilityOff, PersonAdd } from '@mui/icons-material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useRegister } from '../../hooks/useAuth';
+import Logo from '../../components/common/Logo';
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
@@ -105,10 +106,13 @@ const Register: React.FC = () => {
               color: 'white',
               py: 4,
               textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
             }}
           >
-            <PersonAdd sx={{ fontSize: 48, mb: 1 }} />
-            <Typography variant="h4" fontWeight={700}>
+            <Logo size={48} showText={false} />
+            <Typography variant="h4" fontWeight={700} sx={{ mt: 2 }}>
               Create Account
             </Typography>
             <Typography variant="body2" sx={{ mt: 1, opacity: 0.9 }}>
