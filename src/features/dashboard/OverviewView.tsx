@@ -61,9 +61,9 @@ const OverviewView: React.FC = () => {
     { title: 'Total Projects', value: totalProjects, icon: <Folder />, color: 'primary.main', path: '/dashboard/projects' },
     { title: 'Total Tasks', value: totalTasks, icon: <Assignment />, color: 'secondary.main', path: '/dashboard/all-tasks' },
     { title: 'My Tasks', value: myTasksCount, icon: <Person />, color: 'info.main', path: '/dashboard/tasks' },
-    { title: 'Completed', value: completedTasks, icon: <CheckCircle />, color: 'success.main', path: '/dashboard/all-tasks' },
-    { title: 'In Progress', value: inProgressTasks, icon: <TrendingUp />, color: 'warning.main', path: '/dashboard/all-tasks' },
-    { title: 'Blocked', value: blockedTasks, icon: <AccessTime />, color: 'error.main', path: '/dashboard/all-tasks' },
+    { title: 'Completed', value: completedTasks, icon: <CheckCircle />, color: 'success.main', path: '/dashboard/all-tasks?status=COMPLETED' },
+    { title: 'In Progress', value: inProgressTasks, icon: <TrendingUp />, color: 'warning.main', path: '/dashboard/all-tasks?status=IN_PROGRESS' },
+    { title: 'Blocked', value: blockedTasks, icon: <AccessTime />, color: 'error.main', path: '/dashboard/all-tasks?status=BLOCKED' },
   ];
 
   if (isLoading) {

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams,useLocation } from 'react-router-dom';
 import {
   Box,
   Card,
@@ -43,6 +43,7 @@ interface TasksViewProps {
 
 const TasksView: React.FC<TasksViewProps> = ({ showMyTasks = false }) => {
   const { projectId } = useParams<{ projectId: string }>();
+  const routerLocation = useLocation();
   const user = useAppSelector((state) => state.auth.user);
   const { data: allTasks, isLoading: loadingAll } = useTasks();
   const { data: myTasks, isLoading: loadingMy } = useUserTasks(user?.username || '');
@@ -69,10 +70,19 @@ const TasksView: React.FC<TasksViewProps> = ({ showMyTasks = false }) => {
   const [menuAnchor, setMenuAnchor] = useState<{ el: HTMLElement; task: Task } | null>(null);
   const [selectedTaskForDetail, setSelectedTaskForDetail] = useState<Task | null>(null);
 
-  // Filter state - MUST be declared before applyFilters function
   const [filterStatus, setFilterStatus] = useState<TaskStatus | 'ALL'>('ALL');
   const [filterProject, setFilterProject] = useState<number | 'ALL'>('ALL');
   const [filterAssignedUser, setFilterAssignedUser] = useState<string | 'ALL'>('ALL');
+
+  useEffect(() => {
+    const params = new URLSearchParams(routerLocation.search);
+    const statusParam = params.get('status');
+    if (statusParam && Object.values(TaskStatus).includes(statusParam as TaskStatus)) {
+      setFilterStatus(statusParam as TaskStatus);
+    } else{
+      setFilterStatus('ALL');
+    }
+  }, [routerLocation.search]);
 
   // Filter tasks by projectId if provided
   const filteredTasks = projectId
@@ -94,7 +104,7 @@ const TasksView: React.FC<TasksViewProps> = ({ showMyTasks = false }) => {
         return false;
       }
 
-      // Assigned user filter
+     // Assigned user filter
       if (filterAssignedUser !== 'ALL') {
         if (filterAssignedUser === 'UNASSIGNED') {
           if (task.assignedUsername) return false;
@@ -110,7 +120,6 @@ const TasksView: React.FC<TasksViewProps> = ({ showMyTasks = false }) => {
   const tasks = applyFilters(filteredTasks);
   const isLoading = showMyTasks ? loadingMy : loadingAll;
 
-  // Get project name for display
   const currentProject = projectId ? projects?.find(p => p.id === Number(projectId)) : null;
 
 
@@ -255,7 +264,7 @@ const TasksView: React.FC<TasksViewProps> = ({ showMyTasks = false }) => {
           </Select>
         </FormControl>
 
-        <FormControl size="small" sx={{ minWidth: 180 }}>
+        {!showMyTasks && (<FormControl size="small" sx={{ minWidth: 180 }}>
           <InputLabel>Assigned To</InputLabel>
           <Select
             value={filterAssignedUser}
@@ -271,6 +280,7 @@ const TasksView: React.FC<TasksViewProps> = ({ showMyTasks = false }) => {
             ))}
           </Select>
         </FormControl>
+        )}
 
         {(filterStatus !== 'ALL' || filterProject !== 'ALL' || filterAssignedUser !== 'ALL') && (
           <Button
