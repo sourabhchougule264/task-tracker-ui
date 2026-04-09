@@ -23,9 +23,9 @@ export const userService = {
   deleteUser: async (username: string): Promise<void> => {
     // First get user by username to get the ID
     const user = await apiClient.get<UserProfile>(`/users/username/${username}`);
-    if (user.data.username) {
+    if (user.data.id) {
       // Delete from Cognito first
-      await apiClient.delete(`/auth/delete-user/${username}`);
+      await apiClient.delete(`/users/${user.data.id}`);
     }
   },
 };
