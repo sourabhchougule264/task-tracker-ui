@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams,useLocation } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import {
   Box,
   Card,
@@ -75,14 +75,18 @@ const TasksView: React.FC<TasksViewProps> = ({ showMyTasks = false }) => {
   const [filterAssignedUser, setFilterAssignedUser] = useState<string | 'ALL'>('ALL');
 
   useEffect(() => {
+    setFilterProject('ALL');
+    setFilterAssignedUser('ALL');
+
     const params = new URLSearchParams(routerLocation.search);
     const statusParam = params.get('status');
+
     if (statusParam && Object.values(TaskStatus).includes(statusParam as TaskStatus)) {
       setFilterStatus(statusParam as TaskStatus);
-    } else{
+    } else {
       setFilterStatus('ALL');
     }
-  }, [routerLocation.search]);
+  }, [routerLocation.pathname, routerLocation.search, showMyTasks, projectId]);
 
   // Filter tasks by projectId if provided
   const filteredTasks = projectId
