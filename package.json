@@ -10,8 +10,6 @@
     "@reduxjs/toolkit": "^2.11.2",
     "@tanstack/react-query": "^5.96.1",
     "@testing-library/dom": "^10.4.1",
-    "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.13.5",
     "build": "^0.1.4",
@@ -27,7 +25,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "vitest",
+    "coverage": "vitest run --coverage",
     "eject": "react-scripts eject",
     "sonar": "sonar-scanner -Dsonar.projectKey=tasktrackerapp-frontend -Dsonar.organization=sourabhchougule264 -Dsonar.host.url=https://sonarcloud.io -Dsonar.sources=src"
   },
@@ -50,12 +49,19 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "@types/jest": "^30.0.0",
     "@types/node": "^25.5.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@types/react-router-dom": "^5.3.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "@vitest/coverage-v8": "^4.1.4",
+    "jsdom": "^28.1.0",
+    "msw": "^2.13.4",
     "sonarqube-scanner": "^4.3.5",
-    "typescript": "^4.9.5"
+    "typescript": "^4.9.5",
+    "vitest": "^4.1.4"
   }
 }
