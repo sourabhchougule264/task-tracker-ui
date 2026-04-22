@@ -9,5 +9,9 @@ export default defineConfig({
         environment: 'jsdom',
         setupFiles: './src/setupTests.ts',
         css: true,
+        coverage: {
+            reporter: ['text', 'lcov'], // 'lcov' is the one SonarCloud needs
+            reportsDirectory: './coverage'
+        },
     },
 });

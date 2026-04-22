@@ -28,7 +28,7 @@
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "eject": "react-scripts eject",
-    "sonar": "sonar-scanner -Dsonar.projectKey=tasktrackerapp-frontend -Dsonar.organization=sourabhchougule264 -Dsonar.host.url=https://sonarcloud.io -Dsonar.sources=src -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info"
+    "sonar": "sonar-scanner -Dsonar.projectKey=tasktrackerapp-frontend -Dsonar.organization=sourabhchougule264 -Dsonar.host.url=https://sonarcloud.io -Dsonar.sources=src -Dsonar.tests=src -Dsonar.test.inclusions=\"**/*.test.tsx,**/*.test.ts\" -Dsonar.javascript.lcov.reportPaths=**/coverage/lcov.info"
   },
   "eslintConfig": {
     "extends": [
