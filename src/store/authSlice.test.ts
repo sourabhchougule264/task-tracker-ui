@@ -6,14 +6,12 @@ import authReducer, {
 import { jwtDecode } from 'jwt-decode';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 
-// 1. Mock jwt-decode
 vi.mock('jwt-decode', () => ({
     jwtDecode: vi.fn(),
 }));
 
 describe('Auth Slice', () => {
     beforeEach(() => {
-        // Clear localStorage and mocks before each test
         localStorage.clear();
         vi.clearAllMocks();
     });
