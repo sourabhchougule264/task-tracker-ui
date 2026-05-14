@@ -10,7 +10,7 @@ const fetchDynamicConfig = async () => {
         // fetch from the root of domain where S3/CloudFront hosts config.json
         const response = await fetch('/config.json', { cache: 'no-store' });
         const data = await response.json();
-        return data.apiBaseUrl;
+        return data.apiBaseUrl + "/api";
     } catch (error) {
         console.error("Could not load dynamic config, falling back to env default", error);
         return process.env.REACT_APP_API_BASE_URL || 'http://localhost:8080/api';
