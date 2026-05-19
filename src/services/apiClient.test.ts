@@ -8,20 +8,29 @@ describe('apiClient Utility', () => {
         vi.clearAllMocks();
         localStorage.clear();
 
-        // Mock window.location.href safely
+        // 1. Mock window.location.href safely
         // @ts-ignore
         delete window.location;
         window.location = { ...originalLocation, href: '' } as any;
+
+        // 2. Mock global fetch so fetchDynamicConfig() works smoothly
+        global.fetch = vi.fn().mockResolvedValue({
+            json: async () => ({ apiBaseUrl: 'https://mock-tunnel.com' }),
+        });
     });
 
     afterEach(() => {
         window.location = originalLocation;
+        vi.restoreAllMocks();
     });
 
     describe('Configuration', () => {
         it('should be initialized with the correct base URL and settings', () => {
-            // We check the actual instance settings
-            expect(apiClient.defaults.baseURL).toContain('/api');
+            // NOTE: baseURL is intentionally undefined at initialization
+            // because it is set dynamically in the request interceptor.
+            expect(apiClient.defaults.baseURL).toBeUndefined();
+
+            // Check headers on the instance defaults object
             expect(apiClient.defaults.headers['Content-Type']).toBe('application/json');
             expect(apiClient.defaults.withCredentials).toBe(true);
         });
@@ -32,13 +41,18 @@ describe('apiClient Utility', () => {
             const mockToken = 'test-token-123';
             localStorage.setItem('accessToken', mockToken);
 
-            // Access the interceptor logic directly from the real instance
+            // Access the interceptor handler directly
             // @ts-ignore
             const requestHandler = (apiClient.interceptors.request as any).handlers[0].fulfilled;
 
+            // Mock standard Axios config format
             const mockConfig = { headers: {} } as any;
-            const result = requestHandler(mockConfig);
 
+            // Await because fetchDynamicConfig makes this an async interceptor
+            const result = await requestHandler(mockConfig);
+
+            // Assertions
+            expect(result.baseURL).toBe('https://mock-tunnel.com/api');
             expect(result.headers['Authorization']).toBe(`Bearer ${mockToken}`);
         });
 
@@ -47,8 +61,9 @@ describe('apiClient Utility', () => {
             const requestHandler = (apiClient.interceptors.request as any).handlers[0].fulfilled;
 
             const mockConfig = { headers: {} } as any;
-            const result = requestHandler(mockConfig);
+            const result = await requestHandler(mockConfig);
 
+            expect(result.baseURL).toBe('https://mock-tunnel.com/api');
             expect(result.headers['Authorization']).toBeUndefined();
         });
     });
@@ -80,7 +95,7 @@ describe('apiClient Utility', () => {
                 // Expected rejection
             }
 
-            expect(localStorage.getItem('accessToken')).toBeNull();
+            expect(localStorage.length).toBe(0); // tests localStorage.clear()
             expect(window.location.href).toBe('/login');
         });
 
