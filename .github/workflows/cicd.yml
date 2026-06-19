@@ -3,7 +3,14 @@ name: Frontend CICD
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: 'Specific Commit SHA to deploy (Leave blank to use latest master)'
+        required: false
+        default: ''
 
 jobs:
   build-and-deploy:

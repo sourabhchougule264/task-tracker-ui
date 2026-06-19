@@ -21,7 +21,7 @@ const ConfirmRegistration: React.FC = () => {
   const confirmMutation = useConfirm();
 
   const [formData, setFormData] = useState({
-    username: (location.state as any)?.username || '',
+    username: (location.state)?.username || '',
     confirmationCode: '',
   });
   const [errors, setErrors] = useState<{ username?: string; confirmationCode?: string }>({});
@@ -49,7 +49,7 @@ const ConfirmRegistration: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
 
     if (!validate()) return;

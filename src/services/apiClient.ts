@@ -33,7 +33,7 @@ apiClient.interceptors.request.use(
         }
 
         // 2. Set the baseURL dynamically for this request
-        config.baseURL = dynamicBaseUrl as string;
+            config.baseURL = dynamicBaseUrl;
 
         // 3. Existing Auth Logic
         const token = localStorage.getItem('accessToken');
@@ -53,9 +53,9 @@ apiClient.interceptors.response.use(
     async (error: AxiosError) => {
         if (error.response?.status === 401) {
             localStorage.clear();
-            window.location.href = '/login';
+            globalThis.location.href = '/login';
         }
-        return Promise.reject(error);
+        return error;
     }
 );
 

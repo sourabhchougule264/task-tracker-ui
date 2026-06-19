@@ -73,7 +73,7 @@ const ForgotPassword: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleRequestCode = async (e: React.FormEvent) => {
+  const handleRequestCode = async (e: React.SubmitEvent) => {
     e.preventDefault();
     if (!validateStep1()) return;
 
@@ -92,7 +92,7 @@ const ForgotPassword: React.FC = () => {
     }
   };
 
-  const handleResetPassword = async (e: React.FormEvent) => {
+  const handleResetPassword = async (e: React.SubmitEvent) => {
     e.preventDefault();
     if (!validateStep2()) return;
 

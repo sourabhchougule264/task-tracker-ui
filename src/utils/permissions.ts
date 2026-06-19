@@ -8,7 +8,7 @@ import type { User } from '../types';
  * Check if user has Admin role
  */
 export const isAdmin = (user: User | null): boolean => {
-  if (!user || !user.roles) return false;
+  if (!user?.roles) return false;
   return user.roles.some(role =>
     role.toLowerCase() === 'admin' ||
     role.toLowerCase() === 'administrator'
@@ -20,7 +20,7 @@ export const isAdmin = (user: User | null): boolean => {
  * This includes Admin, Manager, and TASK_CREATOR roles
  */
 export const isTaskCreator = (user: User | null): boolean => {
-  if (!user || !user.roles) return false;
+  if (!user?.roles) return false;
   return user.roles.some(role => {
     const lowerRole = role.toLowerCase();
     return lowerRole === 'admin' ||
@@ -35,7 +35,7 @@ export const isTaskCreator = (user: User | null): boolean => {
  * Check if user has READ_ONLY role (cannot create or edit)
  */
 export const isReadOnly = (user: User | null): boolean => {
-  if (!user || !user.roles) return true; // Default to read-only if no roles
+  if (!user?.roles) return true; // Default to read-only if no roles
   return user.roles.some(role =>
     role.toLowerCase() === 'read_only' ||
     role.toLowerCase() === 'readonly'
@@ -122,7 +122,7 @@ export const canAssignTask = (user: User | null): boolean => {
  * Get user role display name
  */
 export const getUserRoleDisplayName = (user: User | null): string => {
-  if (!user || !user.roles || user.roles.length === 0) return 'No Role';
+  if (!user?.roles || user.roles.length === 0) return 'No Role';
   if (isAdmin(user)) return 'Admin';
   if (isReadOnly(user)) return 'Read Only';
   if (isTaskCreator(user)) return 'Task Creator';

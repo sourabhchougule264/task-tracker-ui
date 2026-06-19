@@ -62,7 +62,7 @@ const UserManagementView: React.FC = () => {
   };
 
   const handleDeleteUser = async (username: string) => {
-    if (window.confirm(`Are you sure you want to delete user "${username}"? This action cannot be undone.`)) {
+    if (globalThis.confirm(`Are you sure you want to delete user "${username}"? This action cannot be undone.`)) {
       await deleteUser.mutateAsync(username);
     }
   };

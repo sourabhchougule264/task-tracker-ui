@@ -85,7 +85,7 @@ const ProjectsView: React.FC = () => {
   };
 
   const handleDelete = async (id: number) => {
-    if (window.confirm('Are you sure you want to delete this project?')) {
+    if (globalThis.confirm('Are you sure you want to delete this project?')) {
       await deleteProject.mutateAsync(id);
     }
     setMenuAnchor(null);

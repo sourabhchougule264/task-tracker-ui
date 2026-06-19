@@ -1,9 +1,9 @@
 
-import { beforeAll, afterEach, afterAll } from 'vitest';
-import { server } from './mocks/server';
+import { beforeAll, afterEach, afterAll, expect} from 'vitest';
+import {server} from './mocks/server';
 import '@testing-library/jest-dom';
 import * as matchers from '@testing-library/jest-dom/matchers';
-import { expect } from 'vitest';
+
 
 // Extends Vitest's expect with jest-dom matchers like toBeInTheDocument
 expect.extend(matchers);

@@ -35,7 +35,7 @@ import { useUsers } from '../../hooks/useUsers';
 import { useAppSelector } from '../../store';
 import { canCreateTask, canUpdateTask, canDeleteTask } from '../../utils/permissions';
 import TaskDetailDialog from '../../components/common/TaskDetailDialog';
-import { Task, CreateTaskData, TaskStatus } from '../../types';
+import {Task, CreateTaskData, TaskStatus, Project} from '../../types';
 
 interface TasksViewProps {
   showMyTasks?: boolean;
@@ -88,44 +88,13 @@ const TasksView: React.FC<TasksViewProps> = ({ showMyTasks = false }) => {
     }
   }, [routerLocation.pathname, routerLocation.search, showMyTasks, projectId]);
 
-  // Filter tasks by projectId if provided
-  const filteredTasks = projectId
-    ? (showMyTasks ? myTasks : allTasks)?.filter(task => task.projectId === Number(projectId))
-    : (showMyTasks ? myTasks : allTasks);
+  const filteredTasks = getFilteredTasks(projectId, showMyTasks, myTasks, allTasks);
 
   // Apply filters
-  const applyFilters = (taskList: Task[] | undefined) => {
-    if (!taskList) return [];
+  const tasks = applyFilters(filteredTasks, filterStatus, filterProject, filterAssignedUser);
+  const isLoading = isTaskLoading(showMyTasks, loadingMy, loadingAll);
 
-    return taskList.filter(task => {
-      // Status filter
-      if (filterStatus !== 'ALL' && task.status !== filterStatus) {
-        return false;
-      }
-
-      // Project filter
-      if (filterProject !== 'ALL' && task.projectId !== filterProject) {
-        return false;
-      }
-
-     // Assigned user filter
-      if (filterAssignedUser !== 'ALL') {
-        if (filterAssignedUser === 'UNASSIGNED') {
-          if (task.assignedUsername) return false;
-        } else if (task.assignedUsername !== filterAssignedUser) {
-          return false;
-        }
-      }
-
-      return true;
-    });
-  };
-
-  const tasks = applyFilters(filteredTasks);
-  const isLoading = showMyTasks ? loadingMy : loadingAll;
-
-  const currentProject = projectId ? projects?.find(p => p.id === Number(projectId)) : null;
-
+  const currentProject = getCurrentProject(projectId, projects);
 
   const handleOpenDialog = (task?: Task) => {
     if (task) {
@@ -160,7 +129,7 @@ const TasksView: React.FC<TasksViewProps> = ({ showMyTasks = false }) => {
   };
 
   const handleDelete = async (id: number) => {
-    if (window.confirm('Are you sure you want to delete this task?')) {
+    if (globalThis.confirm('Are you sure you want to delete this task?')) {
       await deleteTask.mutateAsync(id);
     }
     setMenuAnchor(null);
@@ -511,6 +480,55 @@ const TasksView: React.FC<TasksViewProps> = ({ showMyTasks = false }) => {
     </Box>
   );
 };
+
+export function getFilteredTasks(
+    projectId: string | number | null | undefined,
+    showMyTasks: boolean,
+    myTasks: Task[] | undefined,
+    allTasks: Task[] | undefined
+): Task[] {
+  const isShowMyTasks = showMyTasks ? myTasks : allTasks;
+  // @ts-ignore
+  return (projectId
+      ? isShowMyTasks?.filter(task => task.projectId === Number(projectId))
+      : isShowMyTasks);
+}
+
+export function getCurrentProject(projectId: string | number | null | undefined, projects: Project[] | undefined): Project | undefined | null {
+  return projectId ? projects?.find(p => p.id === Number(projectId)) : null;
+}
+
+export function applyFilters(taskList: Task[] | undefined, filterStatus: TaskStatus | "ALL", filterProject: number | "ALL", filterAssignedUser: string | "ALL" | undefined): Task[] {
+  if (!taskList) return [];
+
+  return taskList.filter(task => {
+    // Status filter
+    // @ts-ignore
+    if (filterStatus !== 'ALL' && task.status !== filterStatus) {
+      return false;
+    }
+
+    // Project filter
+    if (filterProject !== 'ALL' && task.projectId !== filterProject) {
+      return false;
+    }
+
+    // Assigned user filter
+    if (filterAssignedUser !== 'ALL') {
+      if (filterAssignedUser === 'UNASSIGNED') {
+        if (task.assignedUsername) return false;
+      } else if (task.assignedUsername !== filterAssignedUser) {
+        return false;
+      }
+    }
+
+    return true;
+  });
+}
+
+export function isTaskLoading(showMyTasks: boolean, loadingMy: boolean, loadingAll: boolean) {
+  return showMyTasks ? loadingMy : loadingAll;
+}
 
 export default TasksView;
 
