@@ -10,8 +10,10 @@ export default defineConfig({
         setupFiles: './src/setupTests.ts',
         css: true,
         coverage: {
-            reporter: ['text', 'lcov'], // 'lcov' is the one SonarCloud needs
-            reportsDirectory: './coverage'
+            provider: 'v8',                     // Required: Tells Vitest which engine to use
+            reporter: ['text', 'lcov'],         // 'lcov' is for Sonar, 'text' shows it in the console
+            reportsDirectory: './coverage',
+            all: true                           // Highly recommended: Includes untested files in the report
         },
     },
 });
