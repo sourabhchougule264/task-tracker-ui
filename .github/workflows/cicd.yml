@@ -33,6 +33,13 @@ jobs:
         env:
           CI: true
 
+      - name: Debug Coverage Folder
+        run: |
+          echo "Listing root directory:"
+          ls -la
+          echo "Listing coverage directory:"
+          ls -la coverage/
+
       - name: SonarQube Analysis
         run: npm run sonar
         env:
