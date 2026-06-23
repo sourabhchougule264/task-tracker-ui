@@ -55,7 +55,7 @@ apiClient.interceptors.response.use(
             localStorage.clear();
             globalThis.location.href = '/login';
         }
-        return error;
+        return Promise.reject(error);
     }
 );
 
