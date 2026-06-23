@@ -10,10 +10,19 @@ export default defineConfig({
         setupFiles: './src/setupTests.ts',
         css: true,
         coverage: {
-            provider: 'v8',                     // Required: Tells Vitest which engine to use
-            reporter: ['text', 'lcov'],         // 'lcov' is for Sonar, 'text' shows it in the console
+            provider: 'v8',
+            reporter: ['text', 'lcov'],
             reportsDirectory: './coverage',
-            all: true                           // Highly recommended: Includes untested files in the report
+            all: true,
+            exclude: [
+                'src/setupTests.ts',
+                'src/reportWebVitals.ts',
+                'src/main.tsx',
+                'src/index.tsx',
+                'src/**/*.d.ts',
+                'src/types/**',
+                'src/assets/**'
+            ]
         },
     },
 });
